@@ -5,35 +5,64 @@
       "nome": "Programa - Validação Laudos Transgenia",
       "tipo": "programa",
       "descricao": "Programa para automação dos processos de validação de laudos.",
-      "versaoAtual": "v1.1.6",
-      "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.1/ValidacaoLaudo_1.1.5.exe",
+      "versaoAtual": "v2.0",
+      "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoLaudo.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
       "novo": true,
       "emConstrucao": false,
       "historico": [
-        { "versao": "v1.1.6", "mudancas": ["Corrigido: Bugs gerais."] },
-        { "versao": "v1.1.5", "mudancas": [
-          "Adicionado: Botão \"Outros\" no mapa bruto, para visualizar outros tipos de waypoints identificados.",
-          "Corrigido: Erro na validação de tecnologia de talhões."
-        ]},
-        { "versao": "v1.1.4", "mudancas": [
-          "Adicionado: Botão para copiar CAR.",
-          "Adicionado: Área total identificada no mapa x excel.",
-          "Corrigido: Sede não aparecia no mapa exportado."
-        ]},
-        { "versao": "v1.1.3", "mudancas": [
-          "Adicionado: Validação do número de entradas no mapa bruto.",
-          "Corrigido: Erro no cálculo do número de entradas."
-        ]},
-        { "versao": "v1.1.2", "mudancas": [
-          "Corrigido: Waypoints do Mapa bruto não apareciam.",
-          "Corrigido: Coordenadas erradas em mapa sem sede."
-        ]},
-        { "versao": "v1.1", "mudancas": [
-          "Adicionado: Exportação do mapa e satélite.",
-          "Adicionado: Divisão automática em mapas grandes.",
-          "Corrigido: Áreas de Experimento e mata não apareciam no mapa."
-        ]}
+        {
+          "versao": "v2.0",
+          "mudancas": [
+            "Design da aplicação refeito;",
+            "Melhorada a usabilidade geral;",
+            "Adicionado Botão \"Novo material\" para limpar todos os arquivos do programa.",
+            "Corrigido pequenos bugs"
+          ]
+        },
+        {
+          "versao": "v1.1.6",
+          "mudancas": [
+            "Corrigido: Bugs gerais."
+          ]
+        },
+        {
+          "versao": "v1.1.5",
+          "mudancas": [
+            "Adicionado: Botão \"Outros\" no mapa bruto, para visualizar outros tipos de waypoints identificados.",
+            "Corrigido: Erro na validação de tecnologia de talhões."
+          ]
+        },
+        {
+          "versao": "v1.1.4",
+          "mudancas": [
+            "Adicionado: Botão para copiar CAR.",
+            "Adicionado: Área total identificada no mapa x excel.",
+            "Corrigido: Sede não aparecia no mapa exportado."
+          ]
+        },
+        {
+          "versao": "v1.1.3",
+          "mudancas": [
+            "Adicionado: Validação do número de entradas no mapa bruto.",
+            "Corrigido: Erro no cálculo do número de entradas."
+          ]
+        },
+        {
+          "versao": "v1.1.2",
+          "mudancas": [
+            "Corrigido: Waypoints do Mapa bruto não apareciam.",
+            "Corrigido: Coordenadas erradas em mapa sem sede."
+          ]
+        },
+        {
+          "versao": "v1.1",
+          "mudancas": [
+            "Adicionado: Exportação do mapa e satélite.",
+            "Adicionado: Divisão automática em mapas grandes.",
+            "Corrigido: Áreas de Experimento e mata não apareciam no mapa."
+          ]
+        }
       ]
     },
     {
