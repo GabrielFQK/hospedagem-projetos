@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositório de Projetos - BV</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --accent: #007bff;
+            --accent-hover: #0056b3;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 900px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            width: 300px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        .version {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .description {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+        .download-btn {
+            background-color: var(--accent);
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .download-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        .download-btn.disabled {
+            background-color: #444444;
+            color: #888888;
+            cursor: not-allowed;
+            pointer-events: none; /* Impede o clique no navegador */
+        }
+        /* Estilo geral das tags */
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            width: max-content;
+        }
+
+        /* Cor para Extensões (Verde) */
+        .tag-extensao {
+            background-color: #28a745;
+            color: #ffffff;
+        }
+
+        /* Cor para Programas (Roxo/Azul) */
+        .tag-programa {
+            background-color: #6f42c1;
+            color: #ffffff;
+        }
+        /* Badge de Nova Versão */
+        .badge-novo {
+            background-color: #ff3b30; /* Vermelho vibrante */
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-left: 8px;
+            display: inline-block;
+            vertical-align: middle;
+            animation: pulse 2s infinite;
+        }
+
+        /* Animação sutil para chamar atenção para a novidade */
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Seção de Novidades/Changelog */
+        .changelog {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent);
+            padding: 10px 12px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+        }
+
+        .changelog-title {
+            font-weight: bold;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .changelog-list {
+            margin: 0;
+            padding-left: 16px;
+            color: var(--text-muted);
+        }
+
+        .changelog-list li {
+            margin-bottom: 3px;
+        }
+
+        /* Botão de histórico de versões */
+        .historico-btn {
+            background: none;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .historico-btn:hover {
+            border-color: var(--text-main);
+            color: var(--text-main);
+        }
+
+        /* Modal de histórico de versões */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 20px;
+        }
+        .modal-overlay.aberto {
+            display: flex;
+        }
+        .modal-box {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 28px;
+            width: 100%;
+            max-width: 520px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .modal-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        .modal-fechar {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 4px;
+        }
+        .modal-fechar:hover {
+            color: var(--text-main);
+        }
+        .historico-item {
+            border-left: 3px solid var(--text-muted);
+            padding: 4px 12px 14px 12px;
+            margin-bottom: 8px;
+        }
+        .historico-item:last-child {
+            margin-bottom: 0;
+        }
+        .historico-item.atual {
+            border-left-color: var(--accent);
+        }
+        .historico-versao {
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .historico-data {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: normal;
+            margin-left: 8px;
+        }
+        .historico-item ul {
+            margin: 6px 0 0 0;
+            padding-left: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .historico-item ul li {
+            margin-bottom: 3px;
+        }
+        .carregando, .erro-carregamento {
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .erro-carregamento {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Repositório de Projetos - BV</h1>
+
+        <div class="container" id="lista-projetos">
+            <p class="carregando">Carregando projetos...</p>
+        </div>
+    </div>
+
+    <!-- Modal de histórico de versões (compartilhado por todos os cards) -->
+    <div class="modal-overlay" id="modal-historico" onclick="if (event.target === this) fecharHistorico()">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-historico-titulo">Histórico de versões</h3>
+                <button class="modal-fechar" onclick="fecharHistorico()" aria-label="Fechar">&times;</button>
+            </div>
+            <div id="modal-historico-lista"></div>
+        </div>
+    </div>
+
+    <script>
+        // Os projetos (nome, versão, changelog, link de download) ficam em
+        // projetos.json, não mais escritos direto aqui — assim, atualizar
+        // uma versão não exige editar este arquivo.
+        let PROJETOS = [];
+
+        function escapaHtml(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto ?? '';
+            return div.innerHTML;
+        }
+
+        function montarCard(p) {
+            const tagClasse = p.tipo === 'programa' ? 'tag-programa' : 'tag-extensao';
+            const tagTexto = p.tipo === 'programa' ? 'Programa' : 'Extensão';
+
+            if (p.emConstrucao) {
+                return `
+                    <div class="card" style="opacity: 0.85;">
+                        <h2>${escapaHtml(p.nome)}</h2>
+                        <span class="tag ${tagClasse}">${tagTexto}</span>
+                        <div class="version" style="color: #ffc107; font-weight: bold;">Status: Em Construção</div>
+                        <p class="description">${escapaHtml(p.descricao)}</p>
+                        <a href="#" class="download-btn disabled" onclick="return false;">Indisponível</a>
+                    </div>
+                `;
+            }
+
+            const badgeNovo = p.novo ? ' <span class="badge-novo">Novo!</span>' : '';
+            const ultimaVersao = (p.historico && p.historico[0]) || null;
+            const changelogHtml = ultimaVersao ? `
+                <div class="changelog">
+                    <div class="changelog-title">Novidades da ${escapaHtml(ultimaVersao.versao)}:</div>
+                    <ul class="changelog-list">
+                        ${ultimaVersao.mudancas.map(m => `<li>${escapaHtml(m)}</li>`).join('')}
+                    </ul>
+                </div>
+            ` : '';
+            const botaoHistorico = (p.historico && p.historico.length > 0)
+                ? `<button class="historico-btn" onclick="abrirHistorico('${p.id}')">Histórico de versões</button>`
+                : '';
+
+            return `
+                <div class="card">
+                    <h2>${escapaHtml(p.nome)}</h2>
+                    <span class="tag ${tagClasse}">${tagTexto}</span>
+                    <div class="version">Versão atual: ${escapaHtml(p.versaoAtual)}${badgeNovo}</div>
+                    <p class="description">${escapaHtml(p.descricao)}</p>
+                    ${changelogHtml}
+                    ${botaoHistorico}
+                    <a href="${escapaHtml(p.linkDownload)}" class="download-btn">${escapaHtml(p.rotuloBotao)}</a>
+                </div>
+            `;
+        }
+
+        async function carregarProjetos() {
+            const container = document.getElementById('lista-projetos');
+            try {
+                const resposta = await fetch('projetos.json', { cache: 'no-store' });
+                if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
+                const dados = await resposta.json();
+                PROJETOS = dados.projetos || [];
+                container.innerHTML = PROJETOS.map(montarCard).join('');
+            } catch (erro) {
+                container.innerHTML = '<p class="erro-carregamento">Não consegui carregar a lista de projetos. Tente recarregar a página.</p>';
+                console.error('Erro ao carregar projetos.json:', erro);
+            }
+        }
+
+        function abrirHistorico(idProjeto) {
+            const projeto = PROJETOS.find(p => p.id === idProjeto);
+            const versoes = (projeto && projeto.historico) || [];
+            const lista = document.getElementById('modal-historico-lista');
+            lista.innerHTML = versoes.length
+                ? versoes.map((v, indice) => `
+                    <div class="historico-item ${indice === 0 ? 'atual' : ''}">
+                        <div class="historico-versao">${escapaHtml(v.versao)}${v.data ? `<span class="historico-data">${escapaHtml(v.data)}</span>` : ''}</div>
+                        <ul>${v.mudancas.map(m => `<li>${escapaHtml(m)}</li>`).join('')}</ul>
+                    </div>
+                `).join('')
+                : '<p style="color: var(--text-muted);">Nenhum histórico registrado ainda.</p>';
+            document.getElementById('modal-historico').classList.add('aberto');
+        }
+
+        function fecharHistorico() {
+            document.getElementById('modal-historico').classList.remove('aberto');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') fecharHistorico();
+        });
+
+        carregarProjetos();
+    </script>
+</body>
+</html>
