@@ -8,7 +8,7 @@
       "versaoAtual": "2.3",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoLaudo.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
-      "novo": true,
+      "novo": false,
       "emConstrucao": false,
       "historico": [
         {
@@ -127,6 +127,25 @@
       "novo": false,
       "emConstrucao": true,
       "historico": []
+    },
+    {
+      "id": "extensao-preenchedor-formularios",
+      "nome": "Extensão - Preenchedor Formulários",
+      "tipo": "extensao",
+      "descricao": "Preenche automaticamente os campos de formulário com dados colados.",
+      "versaoAtual": "1.0",
+      "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/extensao-preenchedor-formularios.rar",
+      "rotuloBotao": "Baixar Extensão (.zip)",
+      "novo": true,
+      "emConstrucao": false,
+      "historico": [
+        {
+          "versao": "1.0",
+          "mudancas": [
+            "Versão inicial criada."
+          ]
+        }
+      ]
     }
   ]
 }
