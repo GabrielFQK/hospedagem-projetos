@@ -136,13 +136,32 @@
       "versaoAtual": "1.0",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/extensao-preenchedor-formularios.rar",
       "rotuloBotao": "Baixar Extensão (.zip)",
-      "novo": true,
+      "novo": false,
       "emConstrucao": false,
       "historico": [
         {
           "versao": "1.0",
           "mudancas": [
             "Versão inicial criada."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "programa-validacao-base",
+      "nome": "Programa - Validação Base",
+      "tipo": "programa",
+      "descricao": "Programa para automação dos processos de validação da base.",
+      "versaoAtual": "1.0",
+      "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoBase.exe",
+      "rotuloBotao": "Baixar Programa (.exe)",
+      "novo": true,
+      "emConstrucao": false,
+      "historico": [
+        {
+          "versao": "1.0",
+          "mudancas": [
+            "Versão Inicial"
           ]
         }
       ]
