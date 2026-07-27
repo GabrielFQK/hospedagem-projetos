@@ -132,7 +132,7 @@
       "rotuloBotao": "Indisponível",
       "novo": false,
       "emConstrucao": true,
-      "oculto": false,
+      "oculto": true,
       "publico": "laudos",
       "historico": []
     },
