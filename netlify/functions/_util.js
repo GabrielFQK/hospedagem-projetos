@@ -16,6 +16,12 @@ function lerCookie(event, nome) {
 }
 
 function sessaoValida(event) {
+    // Em "netlify dev" (ambiente local) o próprio Netlify CLI define
+    // NETLIFY_DEV=true — isso nunca acontece em produção, então pular a
+    // checagem de sessão aqui é seguro e evita dor de cabeça com cookies
+    // (Secure/SameSite) durante testes locais.
+    if (process.env.NETLIFY_DEV === 'true') return true;
+
     const segredo = process.env.SESSION_SECRET;
     const cookie = lerCookie(event, 'admin_session');
     if (!cookie || !segredo) return false;

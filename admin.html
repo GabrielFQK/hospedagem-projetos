@@ -7,21 +7,24 @@
     <meta name="robots" content="noindex, nofollow">
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent: #007bff;
-            --accent-hover: #0056b3;
-            --erro: #ff4d4f;
-            --sucesso: #28a745;
+            --bg-color: #0f1115;
+            --card-bg: #1a1d24;
+            --card-bg-2: #20242c;
+            --text-main: #f2f2f2;
+            --text-muted: #9aa0ab;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --erro: #ff5c5c;
+            --sucesso: #34d058;
+            --borda: #2b2f38;
         }
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background: radial-gradient(circle at top, #171a21 0%, var(--bg-color) 60%);
             color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
+            padding: 40px 20px 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,32 +32,52 @@
         h1 { font-size: 1.8rem; margin-bottom: 24px; }
         .caixa {
             background-color: var(--card-bg);
-            border-radius: 12px;
+            border: 1px solid var(--borda);
+            border-radius: 14px;
             padding: 28px;
             width: 100%;
-            max-width: 480px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            max-width: 640px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+        }
+        fieldset {
+            border: 1px solid var(--borda);
+            border-radius: 10px;
+            margin: 20px 0 0;
+            padding: 14px 16px 18px;
+        }
+        legend {
+            padding: 0 8px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
         label {
             display: block;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             color: var(--text-muted);
             margin-bottom: 6px;
-            margin-top: 16px;
+            margin-top: 14px;
         }
         label:first-of-type { margin-top: 0; }
         input[type="text"], input[type="password"], select, textarea {
             width: 100%;
             box-sizing: border-box;
-            background-color: #2a2a2a;
-            border: 1px solid #3a3a3a;
+            background-color: var(--card-bg-2);
+            border: 1px solid var(--borda);
             border-radius: 8px;
             padding: 10px 12px;
             color: var(--text-main);
             font-size: 0.95rem;
             font-family: inherit;
         }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
         textarea { resize: vertical; min-height: 90px; }
+        textarea.mono { font-family: 'Consolas', 'Courier New', monospace; font-size: 0.82rem; min-height: 140px; }
         .ajuda {
             font-size: 0.78rem;
             color: var(--text-muted);
@@ -71,10 +94,21 @@
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.1s;
         }
         button:hover { background-color: var(--accent-hover); }
-        button:disabled { background-color: #444; cursor: not-allowed; }
+        button:active { transform: scale(0.99); }
+        button:disabled { background-color: #3a3d45; cursor: not-allowed; }
+        button.perigo { background-color: transparent; border: 1px solid var(--erro); color: var(--erro); }
+        button.perigo:hover { background-color: rgba(255,92,92,0.12); }
+        button.secundario {
+            background: none;
+            border: 1px solid var(--text-muted);
+            color: var(--text-muted);
+        }
+        button.secundario:hover { border-color: var(--text-main); color: var(--text-main); background: none; }
+        .linha-botoes { display: flex; gap: 10px; }
+        .linha-botoes button { margin-top: 22px; }
         .mensagem {
             margin-top: 16px;
             padding: 10px 12px;
@@ -82,8 +116,8 @@
             font-size: 0.9rem;
             display: none;
         }
-        .mensagem.erro { background: rgba(255,77,79,0.15); color: var(--erro); display: block; }
-        .mensagem.sucesso { background: rgba(40,167,69,0.15); color: var(--sucesso); display: block; }
+        .mensagem.erro { background: rgba(255,92,92,0.15); color: var(--erro); display: block; }
+        .mensagem.sucesso { background: rgba(52,208,88,0.15); color: var(--sucesso); display: block; }
         .escondido { display: none; }
         .topo-logado {
             display: flex;
@@ -105,7 +139,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 16px;
+            margin-top: 14px;
         }
         .checkbox-linha input { width: auto; }
         .checkbox-linha label { margin: 0; }
@@ -113,6 +147,7 @@
             display: flex;
             gap: 16px;
             margin-top: 6px;
+            flex-wrap: wrap;
         }
         .radio-linha label {
             display: flex;
@@ -123,6 +158,17 @@
             color: var(--text-main);
         }
         .radio-linha input { width: auto; }
+        .tag-oculto {
+            display: inline-block;
+            background: rgba(255,193,7,0.15);
+            color: #ffc107;
+            font-size: 0.72rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
     </style>
 </head>
 <body>
@@ -139,55 +185,96 @@
     <!-- Painel logado -->
     <div class="caixa escondido" id="caixa-painel">
         <div class="topo-logado">
-            <strong>Atualizar projeto</strong>
+            <strong>Gerenciar projetos</strong>
             <button class="sair-btn" onclick="sair()">Sair</button>
         </div>
 
         <label>O que você quer fazer?</label>
         <div class="radio-linha">
-            <label><input type="radio" name="acao" value="atualizar" checked onchange="alternarAcao()"> Atualizar existente</label>
+            <label><input type="radio" name="acao" value="editar" checked onchange="alternarAcao()"> Editar existente</label>
             <label><input type="radio" name="acao" value="criar" onchange="alternarAcao()"> Criar novo projeto</label>
         </div>
 
         <div id="bloco-existente">
-            <label for="projeto-id">Projeto</label>
+            <label for="projeto-id">Projeto <span id="rotulo-oculto" class="tag-oculto escondido">Oculto</span></label>
             <select id="projeto-id"></select>
         </div>
 
-        <div id="bloco-novo" class="escondido">
-            <label for="novo-nome">Nome do projeto</label>
-            <input type="text" id="novo-nome" placeholder='Ex.: Extensão - Nome do Projeto'>
+        <fieldset>
+            <legend>Dados gerais</legend>
 
-            <label for="novo-tipo">Tipo</label>
-            <select id="novo-tipo">
+            <label for="nome">Nome do projeto</label>
+            <input type="text" id="nome" placeholder='Ex.: Extensão - Nome do Projeto'>
+
+            <label for="tipo">Tipo</label>
+            <select id="tipo">
                 <option value="programa">Programa</option>
                 <option value="extensao">Extensão</option>
             </select>
 
-            <label for="novo-descricao">Descrição</label>
-            <textarea id="novo-descricao" style="min-height: 60px;"></textarea>
+            <label for="publico">Indicado para</label>
+            <select id="publico">
+                <option value="">Não especificado</option>
+                <option value="laudos">Laudos</option>
+                <option value="base">Base</option>
+                <option value="ambos">Laudos e Base</option>
+            </select>
+            <div class="ajuda">Mostra uma etiqueta no card e permite filtrar na página inicial.</div>
+
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" style="min-height: 60px;"></textarea>
+        </fieldset>
+
+        <fieldset>
+            <legend>Download</legend>
+
+            <label for="versao-atual">Versão atual (ex.: v1.1.7)</label>
+            <input type="text" id="versao-atual">
+
+            <label for="link-download">Link de download</label>
+            <input type="text" id="link-download" placeholder="https://github.com/.../arquivo.exe">
+            <div class="ajuda">Suba o arquivo manualmente numa GitHub Release e cole o link direto aqui.</div>
+
+            <label for="rotulo-botao">Texto do botão de download</label>
+            <input type="text" id="rotulo-botao" placeholder="Baixar Programa (.exe)">
+        </fieldset>
+
+        <fieldset>
+            <legend>Publicar nova versão (opcional)</legend>
+            <label for="nova-versao">Número da nova versão</label>
+            <input type="text" id="nova-versao" placeholder="Ex.: v1.1.8">
+            <label for="novo-changelog">O que mudou nessa versão</label>
+            <textarea id="novo-changelog" placeholder="Uma mudança por linha, ex.:&#10;Adicionado: Botão X.&#10;Corrigido: Erro Y."></textarea>
+            <div class="ajuda">Se preenchido, atualiza a "Versão atual" acima e entra como o item mais recente do histórico.</div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Histórico de versões</legend>
+            <label for="historico-json">Editável diretamente (formato JSON)</label>
+            <textarea id="historico-json" class="mono" placeholder='[{"versao":"v1.0","mudancas":["Lançamento inicial."]}]'></textarea>
+            <div class="ajuda">Cada item: versao, mudancas (lista) e data (opcional). Edite ou remova entradas antigas aqui.</div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Visibilidade e status</legend>
+            <div class="checkbox-linha">
+                <input type="checkbox" id="marcar-novo">
+                <label for="marcar-novo">Mostrar selo "Novo!" (remove dos outros projetos)</label>
+            </div>
+            <div class="checkbox-linha">
+                <input type="checkbox" id="marcar-construcao">
+                <label for="marcar-construcao">Marcar como "Em construção"</label>
+            </div>
+            <div class="checkbox-linha">
+                <input type="checkbox" id="marcar-oculto">
+                <label for="marcar-oculto">Ocultar da página inicial (fica salvo, pode reativar depois)</label>
+            </div>
+        </fieldset>
+
+        <div class="linha-botoes">
+            <button id="btn-salvar" onclick="salvar()">Salvar e publicar</button>
+            <button id="btn-excluir" class="perigo" onclick="excluir()" style="width: auto; flex-shrink: 0; padding: 12px 18px;">Excluir</button>
         </div>
-
-        <label for="versao">Versão (ex.: v1.1.7)</label>
-        <input type="text" id="versao">
-
-        <label for="changelog">O que mudou nessa versão</label>
-        <textarea id="changelog" placeholder="Uma mudança por linha, ex.:&#10;Adicionado: Botão X.&#10;Corrigido: Erro Y."></textarea>
-        <div class="ajuda">Uma linha por item. Vira a lista de novidades do card e entra no histórico.</div>
-
-        <label for="link-download">Link de download</label>
-        <input type="text" id="link-download" placeholder="https://github.com/.../arquivo.exe">
-        <div class="ajuda">Suba o arquivo manualmente numa GitHub Release e cole o link direto aqui.</div>
-
-        <label for="rotulo-botao">Texto do botão de download</label>
-        <input type="text" id="rotulo-botao" placeholder="Baixar Programa (.exe)">
-
-        <div class="checkbox-linha">
-            <input type="checkbox" id="marcar-novo" checked>
-            <label for="marcar-novo">Mostrar selo "Novo!" (remove dos outros projetos)</label>
-        </div>
-
-        <button id="btn-salvar" onclick="salvar()">Salvar e publicar</button>
         <div class="mensagem" id="msg-painel"></div>
     </div>
 
@@ -236,7 +323,7 @@
             const dados = await resp.json();
             PROJETOS = dados.projetos || [];
             const select = document.getElementById('projeto-id');
-            select.innerHTML = PROJETOS.map(p => `<option value="${p.id}">${p.nome}</option>`).join('');
+            select.innerHTML = PROJETOS.map(p => `<option value="${p.id}">${p.nome}${p.oculto ? ' (oculto)' : ''}</option>`).join('');
             select.onchange = preencherCamposDoProjeto;
             preencherCamposDoProjeto();
         }
@@ -245,56 +332,92 @@
             const id = document.getElementById('projeto-id').value;
             const p = PROJETOS.find(x => x.id === id);
             if (!p) return;
+            document.getElementById('nome').value = p.nome || '';
+            document.getElementById('tipo').value = p.tipo || 'programa';
+            document.getElementById('publico').value = p.publico || '';
+            document.getElementById('descricao').value = p.descricao || '';
+            document.getElementById('versao-atual').value = p.versaoAtual || '';
             document.getElementById('link-download').value = p.linkDownload || '';
             document.getElementById('rotulo-botao').value = p.rotuloBotao || '';
-            document.getElementById('versao').value = '';
-            document.getElementById('changelog').value = '';
+            document.getElementById('nova-versao').value = '';
+            document.getElementById('novo-changelog').value = '';
+            document.getElementById('historico-json').value = JSON.stringify(p.historico || [], null, 2);
+            document.getElementById('marcar-novo').checked = !!p.novo;
+            document.getElementById('marcar-construcao').checked = !!p.emConstrucao;
+            document.getElementById('marcar-oculto').checked = !!p.oculto;
+            document.getElementById('rotulo-oculto').classList.toggle('escondido', !p.oculto);
+        }
+
+        function limparFormularioNovo() {
+            document.getElementById('nome').value = '';
+            document.getElementById('tipo').value = 'programa';
+            document.getElementById('publico').value = '';
+            document.getElementById('descricao').value = '';
+            document.getElementById('versao-atual').value = '';
+            document.getElementById('link-download').value = '';
+            document.getElementById('rotulo-botao').value = '';
+            document.getElementById('nova-versao').value = '';
+            document.getElementById('novo-changelog').value = '';
+            document.getElementById('historico-json').value = '[]';
+            document.getElementById('marcar-novo').checked = false;
+            document.getElementById('marcar-construcao').checked = false;
+            document.getElementById('marcar-oculto').checked = false;
+            document.getElementById('rotulo-oculto').classList.add('escondido');
         }
 
         function alternarAcao() {
             const criar = document.querySelector('input[name="acao"]:checked').value === 'criar';
             document.getElementById('bloco-existente').classList.toggle('escondido', criar);
-            document.getElementById('bloco-novo').classList.toggle('escondido', !criar);
+            document.getElementById('btn-excluir').classList.toggle('escondido', criar);
+            if (criar) {
+                limparFormularioNovo();
+            } else {
+                preencherCamposDoProjeto();
+            }
         }
 
-        async function salvar() {
-            const acao = document.querySelector('input[name="acao"]:checked').value;
-            const versao = document.getElementById('versao').value.trim();
-            const changelogTexto = document.getElementById('changelog').value.trim();
-            const linkDownload = document.getElementById('link-download').value.trim();
-            const rotuloBotao = document.getElementById('rotulo-botao').value.trim();
-            const marcarNovo = document.getElementById('marcar-novo').checked;
-
-            if (!versao || !changelogTexto || !linkDownload || !rotuloBotao) {
-                mostrarMensagem('msg-painel', 'Preencha versão, changelog, link e texto do botão.', 'erro');
-                return;
+        function montarPayloadBase() {
+            let historico;
+            try {
+                historico = JSON.parse(document.getElementById('historico-json').value || '[]');
+                if (!Array.isArray(historico)) throw new Error();
+            } catch {
+                throw new Error('O histórico de versões não é um JSON válido.');
             }
-            const mudancas = changelogTexto.split('\n').map(l => l.trim()).filter(Boolean);
 
-            const payload = {
-                acao,
-                versao,
-                mudancas,
-                linkDownload,
-                rotuloBotao,
-                marcarNovo,
-            };
+            const novaVersao = document.getElementById('nova-versao').value.trim();
+            const novoChangelogTexto = document.getElementById('novo-changelog').value.trim();
+            let versaoAtual = document.getElementById('versao-atual').value.trim();
 
-            if (acao === 'atualizar') {
-                payload.projetoId = document.getElementById('projeto-id').value;
-            } else {
-                payload.nome = document.getElementById('novo-nome').value.trim();
-                payload.tipo = document.getElementById('novo-tipo').value;
-                payload.descricao = document.getElementById('novo-descricao').value.trim();
-                if (!payload.nome || !payload.descricao) {
-                    mostrarMensagem('msg-painel', 'Preencha nome e descrição do novo projeto.', 'erro');
-                    return;
+            if (novaVersao) {
+                const mudancas = novoChangelogTexto.split('\n').map(l => l.trim()).filter(Boolean);
+                if (mudancas.length === 0) {
+                    throw new Error('Descreva o que mudou na nova versão.');
                 }
+                historico = [{ versao: novaVersao, mudancas }, ...historico];
+                versaoAtual = novaVersao;
             }
 
+            return {
+                nome: document.getElementById('nome').value.trim(),
+                tipo: document.getElementById('tipo').value,
+                publico: document.getElementById('publico').value,
+                descricao: document.getElementById('descricao').value.trim(),
+                versaoAtual,
+                linkDownload: document.getElementById('link-download').value.trim(),
+                rotuloBotao: document.getElementById('rotulo-botao').value.trim(),
+                historico,
+                novo: document.getElementById('marcar-novo').checked,
+                emConstrucao: document.getElementById('marcar-construcao').checked,
+                oculto: document.getElementById('marcar-oculto').checked,
+            };
+        }
+
+        async function enviar(payload, textoBotaoOcupado) {
             const botao = document.getElementById('btn-salvar');
+            const textoOriginal = botao.textContent;
             botao.disabled = true;
-            botao.textContent = 'Publicando...';
+            botao.textContent = textoBotaoOcupado;
             try {
                 const resp = await fetch('/api/upload', {
                     method: 'POST',
@@ -305,20 +428,65 @@
                 if (resp.status === 401) {
                     mostrarMensagem('msg-painel', 'Sessão expirada, faça login de novo.', 'erro');
                     sair();
-                    return;
+                    return false;
                 }
                 if (!resp.ok) {
                     const erro = await resp.json().catch(() => ({}));
                     mostrarMensagem('msg-painel', 'Erro: ' + (erro.erro || resp.status), 'erro');
-                    return;
+                    return false;
                 }
-                mostrarMensagem('msg-painel', 'Publicado! O site atualiza em cerca de 1 minuto.', 'sucesso');
-                await carregarProjetos();
+                return true;
             } catch (e) {
                 mostrarMensagem('msg-painel', 'Erro ao conectar. Tente de novo.', 'erro');
+                return false;
             } finally {
                 botao.disabled = false;
-                botao.textContent = 'Salvar e publicar';
+                botao.textContent = textoOriginal;
+            }
+        }
+
+        async function salvar() {
+            const acao = document.querySelector('input[name="acao"]:checked').value;
+            let base;
+            try {
+                base = montarPayloadBase();
+            } catch (e) {
+                mostrarMensagem('msg-painel', e.message, 'erro');
+                return;
+            }
+
+            if (!base.nome || !base.descricao) {
+                mostrarMensagem('msg-painel', 'Preencha nome e descrição.', 'erro');
+                return;
+            }
+            if (!base.emConstrucao && (!base.linkDownload || !base.rotuloBotao)) {
+                mostrarMensagem('msg-painel', 'Preencha o link e o texto do botão (ou marque "Em construção").', 'erro');
+                return;
+            }
+
+            const payload = { acao: acao === 'criar' ? 'criar' : 'salvar', ...base };
+            if (acao !== 'criar') {
+                payload.projetoId = document.getElementById('projeto-id').value;
+            }
+
+            const ok = await enviar(payload, 'Publicando...');
+            if (ok) {
+                mostrarMensagem('msg-painel', 'Publicado! O site atualiza em cerca de 1 minuto.', 'sucesso');
+                await carregarProjetos();
+            }
+        }
+
+        async function excluir() {
+            const id = document.getElementById('projeto-id').value;
+            const p = PROJETOS.find(x => x.id === id);
+            if (!p) return;
+            if (!confirm(`Excluir definitivamente "${p.nome}"? Essa ação não pode ser desfeita (histórico incluso). Se preferir manter os dados, cancele e use "Ocultar" no lugar.`)) {
+                return;
+            }
+            const ok = await enviar({ acao: 'excluir', projetoId: id }, 'Excluindo...');
+            if (ok) {
+                mostrarMensagem('msg-painel', 'Projeto excluído.', 'sucesso');
+                await carregarProjetos();
             }
         }
     </script>

@@ -2,6 +2,10 @@
   publish = "."
   functions = "netlify/functions"
 
+[dev]
+  publish = "."
+  functions = "netlify/functions"
+
 # /api/login e /api/upload viram /.netlify/functions/login e
 # /.netlify/functions/upload por baixo dos panos — os nomes curtos são só
 # pra ficar mais limpo no código do admin.html

@@ -6,57 +6,133 @@
     <title>Repositório de Projetos - BV</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
-            --accent: #007bff;
-            --accent-hover: #0056b3;
+            --bg-color: #0f1115;
+            --card-bg: #1a1d24;
+            --card-bg-2: #20242c;
+            --text-main: #f2f2f2;
+            --text-muted: #9aa0ab;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --borda: #2b2f38;
         }
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background: radial-gradient(circle at top, #171a21 0%, var(--bg-color) 60%);
             color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
+            padding: 48px 20px 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        h1 {
-            margin-bottom: 40px;
-            font-size: 2.5rem;
+        .topo {
+            width: 100%;
+            max-width: 960px;
             text-align: center;
+            margin-bottom: 12px;
         }
+        h1 {
+            margin: 0 0 8px;
+            font-size: 2.3rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(90deg, #f2f2f2, #9aa0ab);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .subtitulo {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        /* Filtros */
+        .filtros-grupo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .filtros-rotulo {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            text-align: center;
+            padding-bottom: 10px;
+        }
+        .filtros {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .filtro-btn {
+            background-color: var(--card-bg);
+            border: 1px solid var(--borda);
+            color: var(--text-muted);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .filtro-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-main);
+        }
+        .filtro-btn.ativo {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
         .container {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 900px;
+            max-width: 960px;
         }
         .card {
             background-color: var(--card-bg);
-            border-radius: 12px;
+            border: 1px solid var(--borda);
+            border-radius: 14px;
             padding: 24px;
             width: 300px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             display: flex;
             flex-direction: column;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.4);
         }
         .card h2 {
             margin-top: 0;
-            font-size: 1.5rem;
+            font-size: 1.35rem;
+        }
+        .etiquetas {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
         }
         .version {
             color: var(--text-muted);
             font-size: 0.9rem;
         }
         .description {
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.5;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
+            margin-top: 8px;
             flex-grow: 1;
+            color: #d5d8dd;
         }
         .download-btn {
             background-color: var(--accent);
@@ -72,37 +148,30 @@
             background-color: var(--accent-hover);
         }
         .download-btn.disabled {
-            background-color: #444444;
+            background-color: #3a3d45;
             color: #888888;
             cursor: not-allowed;
-            pointer-events: none; /* Impede o clique no navegador */
+            pointer-events: none;
         }
         /* Estilo geral das tags */
         .tag {
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
+            padding: 4px 9px;
+            border-radius: 5px;
+            font-size: 0.72rem;
             font-weight: bold;
             text-transform: uppercase;
-            margin-bottom: 12px;
+            letter-spacing: 0.02em;
             width: max-content;
         }
 
-        /* Cor para Extensões (Verde) */
-        .tag-extensao {
-            background-color: #28a745;
-            color: #ffffff;
-        }
+        .tag-extensao { background-color: #1f7a37; color: #ffffff; }
+        .tag-programa { background-color: #5a34a8; color: #ffffff; }
+        .tag-publico { background-color: #2a2f3a; color: #c9cdd6; border: 1px solid var(--borda); }
 
-        /* Cor para Programas (Roxo/Azul) */
-        .tag-programa {
-            background-color: #6f42c1;
-            color: #ffffff;
-        }
         /* Badge de Nova Versão */
         .badge-novo {
-            background-color: #ff3b30; /* Vermelho vibrante */
+            background-color: #ff3b30;
             color: white;
             padding: 2px 6px;
             border-radius: 4px;
@@ -115,7 +184,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* Animação sutil para chamar atenção para a novidade */
         @keyframes pulse {
             0% { opacity: 0.7; }
             50% { opacity: 1; }
@@ -124,11 +192,11 @@
 
         /* Seção de Novidades/Changelog */
         .changelog {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(255, 255, 255, 0.04);
             border-left: 3px solid var(--accent);
             padding: 10px 12px;
             border-radius: 0 6px 6px 0;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             font-size: 0.85rem;
         }
 
@@ -148,29 +216,34 @@
             margin-bottom: 3px;
         }
 
-        /* Botão de histórico de versões */
-        .historico-btn {
+        .acoes-rodape {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn-discreto {
             background: none;
-            border: 1px solid var(--text-muted);
+            border: 1px solid var(--borda);
             color: var(--text-muted);
             padding: 8px;
             border-radius: 8px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
-            margin-bottom: 12px;
+            flex: 1;
             transition: border-color 0.2s, color 0.2s;
         }
-        .historico-btn:hover {
+        .btn-discreto:hover {
             border-color: var(--text-main);
             color: var(--text-main);
         }
 
-        /* Modal de histórico de versões */
+        /* Modal genérico (histórico e tutorial) */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.65);
             align-items: center;
             justify-content: center;
             z-index: 100;
@@ -181,7 +254,8 @@
         }
         .modal-box {
             background-color: var(--card-bg);
-            border-radius: 12px;
+            border: 1px solid var(--borda);
+            border-radius: 14px;
             padding: 28px;
             width: 100%;
             max-width: 520px;
@@ -242,7 +316,16 @@
         .historico-item ul li {
             margin-bottom: 3px;
         }
-        .carregando, .erro-carregamento {
+        .tutorial-passos {
+            margin: 0;
+            padding-left: 20px;
+            color: #d5d8dd;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+        .tutorial-passos li { margin-bottom: 10px; }
+        .tutorial-passos strong { color: var(--text-main); }
+        .carregando, .erro-carregamento, .vazio {
             color: var(--text-muted);
             text-align: center;
         }
@@ -252,22 +335,44 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="topo">
         <h1>Repositório de Projetos - BV</h1>
+    </div>
 
-        <div class="container" id="lista-projetos">
-            <p class="carregando">Carregando projetos...</p>
+    <div class="filtros-grupo">
+        <div>
+            <div class="filtros-rotulo">Tipo</div>
+            <div class="filtros" id="filtros-tipo"></div>
+        </div>
+        <div>
+            <div class="filtros-rotulo">Indicado para</div>
+            <div class="filtros" id="filtros-publico"></div>
         </div>
     </div>
 
-    <!-- Modal de histórico de versões (compartilhado por todos os cards) -->
-    <div class="modal-overlay" id="modal-historico" onclick="if (event.target === this) fecharHistorico()">
+    <div class="container" id="lista-projetos">
+        <p class="carregando">Carregando projetos...</p>
+    </div>
+
+    <!-- Modal de histórico de versões -->
+    <div class="modal-overlay" id="modal-historico" onclick="if (event.target === this) fecharModal('modal-historico')">
         <div class="modal-box">
             <div class="modal-header">
                 <h3 id="modal-historico-titulo">Histórico de versões</h3>
-                <button class="modal-fechar" onclick="fecharHistorico()" aria-label="Fechar">&times;</button>
+                <button class="modal-fechar" onclick="fecharModal('modal-historico')" aria-label="Fechar">&times;</button>
             </div>
             <div id="modal-historico-lista"></div>
+        </div>
+    </div>
+
+    <!-- Modal de tutorial -->
+    <div class="modal-overlay" id="modal-tutorial" onclick="if (event.target === this) fecharModal('modal-tutorial')">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-tutorial-titulo">Como instalar e atualizar</h3>
+                <button class="modal-fechar" onclick="fecharModal('modal-tutorial')" aria-label="Fechar">&times;</button>
+            </div>
+            <div id="modal-tutorial-passos"></div>
         </div>
     </div>
 
@@ -276,6 +381,45 @@
         // projetos.json, não mais escritos direto aqui — assim, atualizar
         // uma versão não exige editar este arquivo.
         let PROJETOS = [];
+        const CHAVE_FILTRO_TIPO = 'bv-filtro-tipo';
+        const CHAVE_FILTRO_PUBLICO = 'bv-filtro-publico';
+
+        // Cada grupo funciona como multi-seleção independente: nenhuma opção
+        // marcada equivale a "todos" daquele grupo. Os dois grupos se
+        // combinam com E — dá pra escolher Extensão + Laudos, por exemplo.
+        const FILTROS_TIPO = [
+            { valor: 'programa', rotulo: 'Programas' },
+            { valor: 'extensao', rotulo: 'Extensões' },
+        ];
+        const FILTROS_PUBLICO = [
+            { valor: 'laudos', rotulo: 'Laudos' },
+            { valor: 'base', rotulo: 'Base' },
+        ];
+
+        const ROTULOS_PUBLICO = { laudos: 'Laudos', base: 'Base', ambos: 'Laudos e Base' };
+
+        const PASSOS_EXTENSAO = [
+            'Baixe o arquivo .zip clicando no botão de download do card.',
+            'Extraia (descompacte) a pasta em um local fixo do computador — não apague depois, o Chrome vai carregar a extensão direto dela.',
+            'Abra o Chrome e acesse <strong>chrome://extensions</strong> na barra de endereço.',
+            'Ative o <strong>"Modo do desenvolvedor"</strong> no canto superior direito.',
+            'Clique em <strong>"Carregar sem compactação"</strong> e selecione a pasta extraída.',
+            'Pronto — o ícone da extensão aparece na barra do navegador.',
+        ];
+        const PASSOS_EXTENSAO_ATUALIZAR = [
+            'Baixe a nova versão do .zip e extraia substituindo a pasta antiga (mesmo local).',
+            'Acesse <strong>chrome://extensions</strong>, encontre a extensão e clique no ícone de recarregar (⟳).',
+            'Se preferir, remova a versão antiga e carregue a pasta nova com "Carregar sem compactação".',
+        ];
+        const PASSOS_PROGRAMA = [
+            'Baixe o arquivo .exe clicando no botão de download do card.',
+            'Execute o instalador e siga as instruções na tela.',
+            'Caso o Windows/antivírus exiba um aviso, confirme a execução (é um programa interno confiável).',
+        ];
+        const PASSOS_PROGRAMA_ATUALIZAR = [
+            'Baixe a nova versão do .exe pelo mesmo botão de download.',
+            'Execute normalmente — a instalação substitui a versão anterior automaticamente.',
+        ];
 
         function escapaHtml(texto) {
             const div = document.createElement('div');
@@ -283,15 +427,73 @@
             return div.innerHTML;
         }
 
+        function lerSelecaoSalva(chave) {
+            try {
+                const salvo = JSON.parse(localStorage.getItem(chave) || '[]');
+                return Array.isArray(salvo) ? salvo : [];
+            } catch {
+                return [];
+            }
+        }
+
+        function salvarSelecao(chave, selecionados) {
+            try { localStorage.setItem(chave, JSON.stringify(selecionados)); } catch {}
+        }
+
+        function alternarValor(lista, valor) {
+            const indice = lista.indexOf(valor);
+            if (indice === -1) lista.push(valor); else lista.splice(indice, 1);
+            return lista;
+        }
+
+        function montarGrupoFiltro(containerId, chave, opcoes) {
+            const container = document.getElementById(containerId);
+            const selecionados = lerSelecaoSalva(chave);
+            container.innerHTML = opcoes.map(f =>
+                `<button class="filtro-btn ${selecionados.includes(f.valor) ? 'ativo' : ''}" data-filtro="${f.valor}">${f.rotulo}</button>`
+            ).join('');
+            container.querySelectorAll('.filtro-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const atualizados = alternarValor(lerSelecaoSalva(chave), btn.dataset.filtro);
+                    salvarSelecao(chave, atualizados);
+                    montarGrupoFiltro(containerId, chave, opcoes);
+                    renderizarLista();
+                });
+            });
+        }
+
+        function montarFiltros() {
+            montarGrupoFiltro('filtros-tipo', CHAVE_FILTRO_TIPO, FILTROS_TIPO);
+            montarGrupoFiltro('filtros-publico', CHAVE_FILTRO_PUBLICO, FILTROS_PUBLICO);
+        }
+
+        function projetoPassaNoFiltro(p) {
+            const tiposSelecionados = lerSelecaoSalva(CHAVE_FILTRO_TIPO);
+            const publicosSelecionados = lerSelecaoSalva(CHAVE_FILTRO_PUBLICO);
+
+            const passaTipo = tiposSelecionados.length === 0 || tiposSelecionados.includes(p.tipo);
+            const passaPublico = publicosSelecionados.length === 0
+                || publicosSelecionados.includes(p.publico)
+                || p.publico === 'ambos';
+
+            return passaTipo && passaPublico;
+        }
+
         function montarCard(p) {
             const tagClasse = p.tipo === 'programa' ? 'tag-programa' : 'tag-extensao';
             const tagTexto = p.tipo === 'programa' ? 'Programa' : 'Extensão';
+            const tagPublico = ROTULOS_PUBLICO[p.publico]
+                ? `<span class="tag tag-publico">${ROTULOS_PUBLICO[p.publico]}</span>`
+                : '';
 
             if (p.emConstrucao) {
                 return `
                     <div class="card" style="opacity: 0.85;">
+                        <div class="etiquetas">
+                            <span class="tag ${tagClasse}">${tagTexto}</span>
+                            ${tagPublico}
+                        </div>
                         <h2>${escapaHtml(p.nome)}</h2>
-                        <span class="tag ${tagClasse}">${tagTexto}</span>
                         <div class="version" style="color: #ffc107; font-weight: bold;">Status: Em Construção</div>
                         <p class="description">${escapaHtml(p.descricao)}</p>
                         <a href="#" class="download-btn disabled" onclick="return false;">Indisponível</a>
@@ -310,20 +512,34 @@
                 </div>
             ` : '';
             const botaoHistorico = (p.historico && p.historico.length > 0)
-                ? `<button class="historico-btn" onclick="abrirHistorico('${p.id}')">Histórico de versões</button>`
+                ? `<button class="btn-discreto" onclick="abrirHistorico('${p.id}')">Histórico</button>`
                 : '';
 
             return `
                 <div class="card">
+                    <div class="etiquetas">
+                        <span class="tag ${tagClasse}">${tagTexto}</span>
+                        ${tagPublico}
+                    </div>
                     <h2>${escapaHtml(p.nome)}</h2>
-                    <span class="tag ${tagClasse}">${tagTexto}</span>
                     <div class="version">Versão atual: ${escapaHtml(p.versaoAtual)}${badgeNovo}</div>
                     <p class="description">${escapaHtml(p.descricao)}</p>
                     ${changelogHtml}
-                    ${botaoHistorico}
+                    <div class="acoes-rodape">
+                        ${botaoHistorico}
+                        <button class="btn-discreto" onclick="abrirTutorial('${p.id}')">Como instalar/atualizar</button>
+                    </div>
                     <a href="${escapaHtml(p.linkDownload)}" class="download-btn">${escapaHtml(p.rotuloBotao)}</a>
                 </div>
             `;
+        }
+
+        function renderizarLista() {
+            const container = document.getElementById('lista-projetos');
+            const visiveis = PROJETOS.filter(p => !p.oculto && projetoPassaNoFiltro(p));
+            container.innerHTML = visiveis.length
+                ? visiveis.map(montarCard).join('')
+                : '<p class="vazio">Nenhum projeto encontrado para esse filtro.</p>';
         }
 
         async function carregarProjetos() {
@@ -333,7 +549,8 @@
                 if (!resposta.ok) throw new Error('HTTP ' + resposta.status);
                 const dados = await resposta.json();
                 PROJETOS = dados.projetos || [];
-                container.innerHTML = PROJETOS.map(montarCard).join('');
+                montarFiltros();
+                renderizarLista();
             } catch (erro) {
                 container.innerHTML = '<p class="erro-carregamento">Não consegui carregar a lista de projetos. Tente recarregar a página.</p>';
                 console.error('Erro ao carregar projetos.json:', erro);
@@ -344,6 +561,7 @@
             const projeto = PROJETOS.find(p => p.id === idProjeto);
             const versoes = (projeto && projeto.historico) || [];
             const lista = document.getElementById('modal-historico-lista');
+            document.getElementById('modal-historico-titulo').textContent = `Histórico — ${projeto ? projeto.nome : ''}`;
             lista.innerHTML = versoes.length
                 ? versoes.map((v, indice) => `
                     <div class="historico-item ${indice === 0 ? 'atual' : ''}">
@@ -355,12 +573,32 @@
             document.getElementById('modal-historico').classList.add('aberto');
         }
 
-        function fecharHistorico() {
-            document.getElementById('modal-historico').classList.remove('aberto');
+        function abrirTutorial(idProjeto) {
+            const projeto = PROJETOS.find(p => p.id === idProjeto);
+            if (!projeto) return;
+            const ehExtensao = projeto.tipo === 'extensao';
+            const instalar = ehExtensao ? PASSOS_EXTENSAO : PASSOS_PROGRAMA;
+            const atualizar = ehExtensao ? PASSOS_EXTENSAO_ATUALIZAR : PASSOS_PROGRAMA_ATUALIZAR;
+
+            document.getElementById('modal-tutorial-titulo').textContent = `Instalar/atualizar — ${projeto.nome}`;
+            document.getElementById('modal-tutorial-passos').innerHTML = `
+                <strong style="display:block; margin-bottom: 6px;">Instalação</strong>
+                <ol class="tutorial-passos">${instalar.map(passo => `<li>${passo}</li>`).join('')}</ol>
+                <strong style="display:block; margin: 16px 0 6px;">Atualização</strong>
+                <ol class="tutorial-passos">${atualizar.map(passo => `<li>${passo}</li>`).join('')}</ol>
+            `;
+            document.getElementById('modal-tutorial').classList.add('aberto');
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).classList.remove('aberto');
         }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') fecharHistorico();
+            if (e.key === 'Escape') {
+                fecharModal('modal-historico');
+                fecharModal('modal-tutorial');
+            }
         });
 
         carregarProjetos();

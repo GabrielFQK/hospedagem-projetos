@@ -10,6 +10,8 @@
       "rotuloBotao": "Baixar Programa (.exe)",
       "novo": false,
       "emConstrucao": false,
+      "oculto": false,
+      "publico": "laudos",
       "historico": [
         {
           "versao": "2.3",
@@ -102,6 +104,8 @@
       "rotuloBotao": "Baixar Extensão (.zip)",
       "novo": false,
       "emConstrucao": false,
+      "oculto": false,
+      "publico": "laudos",
       "historico": []
     },
     {
@@ -114,6 +118,8 @@
       "rotuloBotao": "Baixar Extensão (.zip)",
       "novo": false,
       "emConstrucao": false,
+      "oculto": false,
+      "publico": "laudos",
       "historico": []
     },
     {
@@ -126,6 +132,8 @@
       "rotuloBotao": "Indisponível",
       "novo": false,
       "emConstrucao": true,
+      "oculto": true,
+      "publico": "laudos",
       "historico": []
     },
     {
@@ -138,11 +146,13 @@
       "rotuloBotao": "Baixar Extensão (.zip)",
       "novo": false,
       "emConstrucao": false,
+      "oculto": false,
+      "publico": "laudos",
       "historico": [
         {
           "versao": "1.0",
           "mudancas": [
-            "Versão inicial criada."
+            "Versão inicial."
           ]
         }
       ]
@@ -157,6 +167,8 @@
       "rotuloBotao": "Baixar Programa (.exe)",
       "novo": true,
       "emConstrucao": false,
+      "oculto": false,
+      "publico": "base",
       "historico": [
         {
           "versao": "1.0",
