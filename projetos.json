@@ -113,14 +113,22 @@
       "nome": "Extensão - Importador de Arquivos",
       "tipo": "extensao",
       "descricao": "Extensão para importar os anexos automaticamente para o site do Transgenia, preenchendo os campos necessários.",
-      "versaoAtual": "v1.2",
+      "versaoAtual": "1.3",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/extensao-importador-arquivos.rar",
       "rotuloBotao": "Baixar Extensão (.zip)",
-      "novo": false,
+      "novo": true,
       "emConstrucao": false,
       "oculto": false,
       "publico": "laudos",
-      "historico": []
+      "historico": [
+        {
+          "versao": "1.3",
+          "mudancas": [
+            "Agora é possível importar arquivos em segundo plano e em vários cards ao mesmo tempo;",
+            "Programa altera nome do arquivo da declaração automaticamente."
+          ]
+        }
+      ]
     },
     {
       "id": "monitoramento-formularios",
@@ -165,7 +173,7 @@
       "versaoAtual": "1.1",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoBase.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
-      "novo": true,
+      "novo": false,
       "emConstrucao": false,
       "oculto": false,
       "publico": "base",
