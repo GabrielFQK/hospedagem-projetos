@@ -173,7 +173,7 @@
         {
           "versao": "1.1",
           "mudancas": [
-            "Corrigido bug ao calcular área dos mapas."
+            "Corrigido bug no cálculo de área de talhões."
           ]
         },
         {
