@@ -116,7 +116,7 @@
       "versaoAtual": "1.3",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/extensao-importador-arquivos.rar",
       "rotuloBotao": "Baixar Extensão (.zip)",
-      "novo": true,
+      "novo": false,
       "emConstrucao": false,
       "oculto": false,
       "publico": "laudos",
@@ -170,14 +170,20 @@
       "nome": "Programa - Validação Base",
       "tipo": "programa",
       "descricao": "Programa para automação dos processos de validação da base.",
-      "versaoAtual": "1.1",
+      "versaoAtual": "1.2",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoBase.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
-      "novo": false,
+      "novo": true,
       "emConstrucao": false,
       "oculto": false,
       "publico": "base",
       "historico": [
+        {
+          "versao": "1.2",
+          "mudancas": [
+            "Corrigido bug de identificação de talhões."
+          ]
+        },
         {
           "versao": "1.1",
           "mudancas": [
