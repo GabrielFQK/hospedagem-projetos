@@ -5,7 +5,7 @@
       "nome": "Programa - Validação Laudos Transgenia",
       "tipo": "programa",
       "descricao": "Programa para automação dos processos de validação de laudos.",
-      "versaoAtual": "2.5",
+      "versaoAtual": "2.4",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoLaudo.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
       "novo": true,
@@ -14,10 +14,10 @@
       "publico": "laudos",
       "historico": [
         {
-          "versao": "2.5",
+          "versao": "2.4",
           "mudancas": [
-            "Adicionado aba para alterar PDF;",
-            "Corrigido somatória das áreas no mapa exportado."
+            "Adicionado: Aba para alterar PDFS;",
+            "Corrigido bug no cálculo de áreas no mapa exportado"
           ]
         },
         {
