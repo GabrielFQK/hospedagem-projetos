@@ -2,7 +2,7 @@
 // (criar / salvar / excluir) e reescreve projetos.json direto no GitHub via
 // API (sem git local nenhum). O binário (.exe/.zip) NÃO passa por aqui —
 // você sobe ele manualmente numa GitHub Release e só cola o link.
-const { sessaoValida, githubApi } = require('./_util');
+import { sessaoValida, githubApi, utf8ParaBase64, base64ParaUtf8, respostaJson } from './_util.js';
 
 function gerarId(nome) {
     // normaliza (separa letra + acento) e descarta qualquer caractere que
@@ -21,44 +21,41 @@ function gerarId(nome) {
 
 const PUBLICOS_VALIDOS = ['', 'laudos', 'base', 'ambos'];
 
-exports.handler = async (event) => {
-    if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: 'Method not allowed' };
+export async function onRequest({ request, env }) {
+    if (request.method !== 'POST') {
+        return new Response('Method not allowed', { status: 405 });
     }
-    if (!sessaoValida(event)) {
-        return { statusCode: 401, body: JSON.stringify({ erro: 'Sessão inválida ou expirada, faça login de novo.' }) };
+    if (!(await sessaoValida(request, env))) {
+        return respostaJson({ erro: 'Sessão inválida ou expirada, faça login de novo.' }, 401);
     }
 
     let dados;
     try {
-        dados = JSON.parse(event.body || '{}');
+        dados = await request.json();
     } catch {
-        return { statusCode: 400, body: JSON.stringify({ erro: 'JSON inválido' }) };
+        return respostaJson({ erro: 'JSON inválido' }, 400);
     }
 
     const acao = dados.acao;
     if (!['criar', 'salvar', 'excluir'].includes(acao)) {
-        return { statusCode: 400, body: JSON.stringify({ erro: 'Ação inválida.' }) };
+        return respostaJson({ erro: 'Ação inválida.' }, 400);
     }
 
-    const caminhoArquivo = process.env.GITHUB_PROJETOS_PATH || 'projetos.json';
-    const branch = process.env.GITHUB_BRANCH || 'main';
+    const caminhoArquivo = env.GITHUB_PROJETOS_PATH || 'projetos.json';
+    const branch = env.GITHUB_BRANCH || 'main';
 
     // 1) lê o projetos.json atual — precisa do "sha" dele pra poder
     // sobrescrever (é assim que a API do GitHub evita sobrescrever por
     // cima de uma mudança concorrente sem querer)
-    const respostaAtual = await githubApi(`/contents/${encodeURIComponent(caminhoArquivo)}?ref=${branch}`);
+    const respostaAtual = await githubApi(env, `/contents/${encodeURIComponent(caminhoArquivo)}?ref=${branch}`);
     if (!respostaAtual.ok) {
         const detalhe = await respostaAtual.text().catch(() => '');
-        return {
-            statusCode: 502,
-            body: JSON.stringify({
-                erro: `Não consegui ler ${caminhoArquivo} no GitHub (HTTP ${respostaAtual.status}): ${detalhe}`,
-            }),
-        };
+        return respostaJson({
+            erro: `Não consegui ler ${caminhoArquivo} no GitHub (HTTP ${respostaAtual.status}): ${detalhe}`,
+        }, 502);
     }
     const atual = await respostaAtual.json();
-    const conteudoAtual = JSON.parse(Buffer.from(atual.content, 'base64').toString('utf-8'));
+    const conteudoAtual = JSON.parse(base64ParaUtf8(atual.content));
     const projetos = conteudoAtual.projetos || [];
 
     let idAtivo;
@@ -68,7 +65,7 @@ exports.handler = async (event) => {
         const { projetoId } = dados;
         const indice = projetos.findIndex(p => p.id === projetoId);
         if (indice === -1) {
-            return { statusCode: 400, body: JSON.stringify({ erro: 'Projeto não encontrado.' }) };
+            return respostaJson({ erro: 'Projeto não encontrado.' }, 400);
         }
         projetos.splice(indice, 1);
         idAtivo = projetoId;
@@ -89,10 +86,10 @@ exports.handler = async (event) => {
             }));
 
         if (!nome || !tipo || !descricao) {
-            return { statusCode: 400, body: JSON.stringify({ erro: 'Preencha nome, tipo e descrição.' }) };
+            return respostaJson({ erro: 'Preencha nome, tipo e descrição.' }, 400);
         }
         if (!emConstrucao && (!linkDownload || !rotuloBotao)) {
-            return { statusCode: 400, body: JSON.stringify({ erro: 'Preencha o link de download e o texto do botão (ou marque "Em construção").' }) };
+            return respostaJson({ erro: 'Preencha o link de download e o texto do botão (ou marque "Em construção").' }, 400);
         }
 
         const projetoBase = {
@@ -110,7 +107,7 @@ exports.handler = async (event) => {
         if (acao === 'criar') {
             const id = gerarId(nome);
             if (!id || projetos.some(p => p.id === id)) {
-                return { statusCode: 400, body: JSON.stringify({ erro: 'Já existe um projeto com esse nome (ou nome inválido).' }) };
+                return respostaJson({ erro: 'Já existe um projeto com esse nome (ou nome inválido).' }, 400);
             }
             projetos.push({ id, ...projetoBase });
             idAtivo = id;
@@ -118,7 +115,7 @@ exports.handler = async (event) => {
         } else {
             const indice = projetos.findIndex(p => p.id === dados.projetoId);
             if (indice === -1) {
-                return { statusCode: 400, body: JSON.stringify({ erro: 'Projeto não encontrado.' }) };
+                return respostaJson({ erro: 'Projeto não encontrado.' }, 400);
             }
             projetos[indice] = { id: dados.projetoId, ...projetoBase };
             idAtivo = dados.projetoId;
@@ -133,11 +130,11 @@ exports.handler = async (event) => {
     }
 
     const novoConteudo = JSON.stringify({ projetos }, null, 2);
-    const respostaCommit = await githubApi(`/contents/${encodeURIComponent(caminhoArquivo)}`, {
+    const respostaCommit = await githubApi(env, `/contents/${encodeURIComponent(caminhoArquivo)}`, {
         method: 'PUT',
         body: JSON.stringify({
             message: mensagemCommit,
-            content: Buffer.from(novoConteudo, 'utf-8').toString('base64'),
+            content: utf8ParaBase64(novoConteudo),
             sha: atual.sha,
             branch,
         }),
@@ -145,8 +142,8 @@ exports.handler = async (event) => {
 
     if (!respostaCommit.ok) {
         const erroTexto = await respostaCommit.text();
-        return { statusCode: 502, body: JSON.stringify({ erro: 'Não consegui salvar no GitHub: ' + erroTexto }) };
+        return respostaJson({ erro: 'Não consegui salvar no GitHub: ' + erroTexto }, 502);
     }
 
-    return { statusCode: 200, body: JSON.stringify({ ok: true, id: idAtivo }) };
-};
+    return respostaJson({ ok: true, id: idAtivo });
+}
