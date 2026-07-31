@@ -8,7 +8,7 @@
       "versaoAtual": "2.4",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoLaudo.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
-      "novo": true,
+      "novo": false,
       "emConstrucao": false,
       "oculto": false,
       "publico": "laudos",
@@ -177,14 +177,20 @@
       "nome": "Programa - Validação Base",
       "tipo": "programa",
       "descricao": "Programa para automação dos processos de validação da base.",
-      "versaoAtual": "1.3",
+      "versaoAtual": "1.4",
       "linkDownload": "https://github.com/GabrielFQK/projetos-BV/releases/download/1.0/ValidacaoBase.exe",
       "rotuloBotao": "Baixar Programa (.exe)",
-      "novo": false,
+      "novo": true,
       "emConstrucao": false,
       "oculto": false,
       "publico": "base",
       "historico": [
+        {
+          "versao": "1.4",
+          "mudancas": [
+            "Correção de bugs"
+          ]
+        },
         {
           "versao": "1.3",
           "mudancas": [
